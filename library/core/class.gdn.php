@@ -332,4 +332,41 @@ class Gdn {
       if($Override || is_null(self::$_Factory))
          self::$_Factory = $Factory;
    }
+   
+   /**
+    * Load vendor files.
+    *
+    * @param mixed $Vendors array or string
+    * @return void
+    */
+   public static function LoadVendors($Vendors) {
+      if (is_array($Vendors)) {
+         foreach ($Vendors as $Vendor) {
+            self::LoadVendors($Vendor);
+         }
+      } else {
+         require_once PATH_LIBRARY . DS . 'vendors' . DS . ltrim($Vendors, DS);
+      }
+   }
+   
+   /**
+    * Alias of Gdn::LoadVendors()
+    *
+    * @see Gdn::LoadVendors()
+    * @param mixed $Vendors array or string
+    * @return void
+    */
+   public static function LoadVendor($Vendors) {
+      self::LoadVendors($Vendors);
+   }
+   
+   /**
+    * Add include path
+    *
+    * @param string $Path 
+    * @return void
+    */
+   public static function AddVendorPath($Path = NULL) {
+      set_include_path(get_include_path() . PATH_SEPARATOR . PATH_LIBRARY . DS . 'vendors' . DS . $Path);
+   }
 }
